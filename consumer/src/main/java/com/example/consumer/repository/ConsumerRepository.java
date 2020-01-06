@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface ConsumerRepository extends CrudRepository<Consumer, Long> {
 
-    List<Consumer> findConsumerByEmail(String email);
+    Consumer findConsumerByEmail(String email);
 }
 

@@ -1,12 +1,10 @@
 package com.example.item.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Objects;
 
 @Entity(name = "Item")
+@Table(name="item")
 public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -15,9 +13,6 @@ public class Item {
     private String name;
     private String description;
     private Double price;
-
-    private Long consumerId;
-
 
     protected Item() {
 

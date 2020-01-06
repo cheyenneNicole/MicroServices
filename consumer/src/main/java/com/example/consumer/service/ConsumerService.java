@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ConsumerService implements BasicService<Consumer> {
+public class ConsumerService{
 
     private ConsumerRepository consumerRepository;
 
@@ -18,46 +18,29 @@ public class ConsumerService implements BasicService<Consumer> {
         this.consumerRepository = consumerRepository;
     }
 
-    @Override
+
     public Consumer add(Consumer consumer) {
 
         return this.consumerRepository.save(consumer);
     }
 
-    @Override
-    public Consumer get(Long id) {
 
-        Optional optional = this.consumerRepository.findById(id);
+    public Consumer getByEmail(String emailId) {
+
+       Consumer optional = consumerRepository.findConsumerByEmail(emailId);
 
         Consumer result = null;
-        if (optional.isPresent()) {
-            result = (Consumer) optional.get();
+        if (optional != null) {
+            result = (Consumer) optional;
         }
         return result;
     }
 
-    @Override
-    public Consumer modify(Consumer consumer) {
-        return this.consumerRepository.save(consumer);
-    }
 
-    @Override
-    public boolean delete(Consumer consumer) {
-
-        this.consumerRepository.delete(consumer);
-        return true;
-    }
-
-    @Override
     public List<Consumer> getAll() {
 
         return (List<Consumer>) consumerRepository.findAll();
     }
 
-
-    public List<Consumer> getConsumerByEmail(String email) {
-
-        return this.consumerRepository.findConsumerByEmail(email);
-    }
 }
 

@@ -1,54 +1,40 @@
 package com.example.salesorder.models;
 
 
+import lombok.Data;
+
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import java.util.Date;
 import java.util.Objects;
 
 @Entity(name="SalesOrder")
+@Table(name = "salesorder")
+@Data
 public class SalesOrder{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String name;
     private String description;
 
+    @Email
+    private String email;
 
-    private Long email_id;
+    private Double price;
 
+    private Date date;
 
-    protected SalesOrder(){
+    public SalesOrder(){
 
     }
 
-    public SalesOrder(String name, String description){
-        this.name = name;
+    public SalesOrder(String description, String email, Date date, Double price){
+        this.date = date;
         this.description = description;
-    }
-    public Long getId(){
-        return id;
-    }
-    public void setId(Long id){
-        this.id = id;
-    }
-    public String getName(){
-        return name;
-    }
-    public void setName(String name){
-        this.name = name;
-    }
-    public String getDescription(){
-        return description;
-    }
-    public void setDescription(String description){
-        this.description = description;
-    }
-    public void setEmail_id(Long email_id){
-        this.email_id = email_id;
-    }
-    public Long getEmail_id(){
-        return email_id;
+        this.email = email;
+        this.price = price;
     }
 
     @Override
@@ -67,8 +53,10 @@ public class SalesOrder{
     public String toString() {
         final StringBuilder sb = new StringBuilder("Sales Order{");
         sb.append("id=").append(id);
-        sb.append(", name=").append(name);
+        sb.append(", date=").append(date);
         sb.append(", description='").append(description).append('\'');
+        sb.append(", email=").append(email);
+        sb.append(", price=").append(price);
         sb.append('}');
         return sb.toString();
     }
@@ -85,18 +73,21 @@ public class SalesOrder{
             salesOrder = new SalesOrder();
         }
 
-        public SalesOrderBuilder withName(String name) {
-            salesOrder.setName(name);
+        public SalesOrderBuilder withId(Long id) {
+            salesOrder.setId(id);
             return this;
         }
-
+        public SalesOrderBuilder withDate(Date date) {
+            salesOrder.setDate(date);
+            return this;
+        }
         public SalesOrderBuilder withDescription(String description) {
             salesOrder.setDescription(description);
             return this;
         }
 
-        public SalesOrderBuilder withEmail_id(Long email_id) {
-            salesOrder.setEmail_id(email_id);
+        public SalesOrderBuilder withPrice(double price) {
+            salesOrder.setPrice(price);
             return this;
         }
 

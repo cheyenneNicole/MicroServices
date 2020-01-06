@@ -13,7 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("consumer")
-public class ConsumerController implements BasicController<Consumer> {
+public class ConsumerController{
 
     private ConsumerService consumerService;
 
@@ -22,54 +22,29 @@ public class ConsumerController implements BasicController<Consumer> {
         this.consumerService = consumerService;
     }
 
-    @Override
+
     @PostMapping(value = "addConsumer", produces = "application/json")
     public Consumer add(@RequestBody Consumer consumer) {
 
         return this.consumerService.add(consumer);
     }
 
-    @Override
-    @GetMapping(value = "getById/{id}", produces = "application/json")
-    public Consumer get(@PathVariable("id") Long id) {
-
-        // Demonstrates exception handling with ResponseStatusException exception
-        Consumer consumer = null;
-        try {
-            consumer = this.consumerService.get(id);
-        } catch (Exception exc) {
-            throw new ResponseStatusException(
-                    HttpStatus.NOT_FOUND, "Consumer [" + id + "] Not Found", exc);
-        }
-        return consumer;
-    }
-
-    @Override
-    @PutMapping(value = "updateConsumer", produces = "application/json")
-    public Consumer modify(@RequestBody Consumer consumer) {
-
-        return this.consumerService.modify(consumer);
-    }
-
-    @Override
-    @RequestMapping(value = "deleteConsumer", method = {RequestMethod.DELETE}, produces = "application/json")
-    public boolean delete(@RequestBody Consumer consumer) {
-
-        return this.consumerService.delete(consumer);
-    }
-
-    @Override
     @GetMapping(value = "getAllConsumer", produces = "application/json")
     public List<Consumer> getAll() {
-
         List<Consumer> all = this.consumerService.getAll();
         return all;
     }
 
-    @GetMapping(value = "getConsumerByEmail/{email}", produces = "application/json")
-    public List<Consumer> getConsumerByEmail(@PathVariable("email") String email) {
-
-        return this.consumerService.getConsumerByEmail(email);
+    @GetMapping("getConsumerByEmail/{email}")
+    public Consumer getByEmail(@PathVariable("email") String email){
+        Consumer consumer = null;
+        try {
+            consumer = this.consumerService.getByEmail(email);
+        }catch (Exception exc) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "Customer [" + email + "] Not Found", exc);
+        }
+        return consumer;
     }
 
 }

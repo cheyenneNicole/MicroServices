@@ -1,74 +1,142 @@
 package com.example.salesorder.controller;
 
 
+import com.example.item.service.ItemService;
 import com.example.salesorder.models.SalesOrder;
 import com.example.salesorder.service.SalesOrderService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @RestController
 @RequestMapping("salesOrder")
-public class SalesOrderController implements BasicController<SalesOrder> {
+public class SalesOrderController{
 
-        private SalesOrderService salesOrderService;
+    private SalesOrderService salesOrderService;
+    private OrderService orderService;
+    private ConsumerService consumerService;
+    private ItemService itemService;
 
 
-        public SalesOrderController(SalesOrderService salesOrderService) {
+        public SalesOrderController(SalesOrderService salesOrderService, ConsumerService consumerService, ItemService itemService) {
+
             this.salesOrderService = salesOrderService;
+            this.consumerService = consumerService;
+            this.itemService = itemService;
         }
 
-        @Override
-        @PostMapping(value = "addSalesOrder", produces = "application/json")
-        public SalesOrder add(@RequestBody SalesOrder salesOrder) {
+    @PostMapping(value = "orders", produces = "application/json")
+    public String createOrder(@RequestBody customDetails orderDetails) {
+        String result = "";
+        String unavailableItems = "";
+        Consumer isCustomerAvailable = null;
+        boolean customerEmailAvailable = false;
+//        isCustomerAvailable = customerServiceProxy.getByEmail(orderDetails.getEmail());
+        isCustomerAvailable = customerService.getByEmail(orderDetails.getEmail());
 
-            return this.salesOrderService.add(salesOrder);
-        }
+        if(isCustomerAvailable.getId() == -1L)
+            return "**** Oops... Customer Server is down  ******";
 
-        @Override
-        @GetMapping(value = "getBySalesOrderId/{id}", produces = "application/json")
-        public SalesOrder get(@PathVariable("id") Long id) {
+        if (isCustomerAvailable != null)
+            customerEmailAvailable = true;
 
-            // Demonstrates exception handling with ResponseStatusException exception
-            SalesOrder salesOrder = null;
-            try {
-                salesOrder = this.salesOrderService.get(id);
-            } catch (Exception exc) {
-                throw new ResponseStatusException(
-                        HttpStatus.NOT_FOUND, "Consumer [" + id + "] Not Found", exc);
+        List<Long> orderIdsList = new ArrayList<>();
+
+//        Long orderIdCreated = null;
+
+        HashMap<String, Integer> hmap = new HashMap<>();
+
+        if (customerEmailAvailable) {
+            List<String> orderList = orderDetails.getItemNames();
+            List<String> availableList = new ArrayList<>();
+
+            System.out.println("orderList is " + orderList + " list empty check " + orderList.size());
+
+            if (orderList.isEmpty() )
+                return "**** Oops... There are no items in the list or items are currently ******";
+
+            double totalPrice = 0.0;
+            for (String order : orderList) {
+
+                System.out.println(" order passing to order service is " + order);
+                Item item = null;
+                item = itemService.get(order);
+                System.out.println("returned object from item service is " + item);
+
+                if (item == null) {
+                    //result = result + "**** Oops... Item \'" + order + "\' are currently unavailable ******";
+                    unavailableItems = unavailableItems + " " + order;
+                    continue;
+                }
+
+                else if(item.getId() == -1L)
+                {
+                    return "**** Oops... Item Server is down  ******";
+
+                }
+
+//                System.out.println("---Item Details ----" + item);
+
+                else {
+                    totalPrice = totalPrice + item.getPrice();
+                    availableList.add(item.getName());
+                    if(hmap.containsKey(item.getName()))
+                    {
+                        int prev = hmap.get(item.getName());
+                        prev++;
+                        hmap.put(item.getName(), prev);
+                    }
+                    else
+                    {
+                        hmap.put(item.getName(), 1);
+                    }
+                }
             }
-            return salesOrder;
+            SalesOrder salesRes = null;
+
+            if(totalPrice == 0.0)
+                return result;
+            else
+                salesRes = this.salesOrderService.add(orderDetails.getDate(), orderDetails.getEmail(), orderDetails.getDescription(), totalPrice);
+
+
+            for (Map.Entry<String, Integer> entry : hmap.entrySet()) {
+                System.out.println("Item : " + entry.getKey() + " Count : " + entry.getValue());
+                OrderLineItem orderRes = this.orderLineItemService.add(entry.getKey(), salesRes.getId(), (int)entry.getValue());
+            }
+
+
+            result = "Order Id is " + result + salesRes.getId();
+
+            if(unavailableItems.length() > 1)
+                result =  result + " & some Items are unavailable and they are " + unavailableItems;
         }
+        return result;
+    }
 
-        @Override
-        @PutMapping(value = "updateSalesOrder", produces = "application/json")
-        public SalesOrder modify(@RequestBody SalesOrder salesOrder) {
+    @GetMapping(value = "orderDetailsByEmail/{email}", produces = "application/json")
+    public List<HashMap<String,Integer>> getOrderDetailsByEmail(@PathVariable String email){
 
-            return this.salesOrderService.modify(salesOrder);
+        LOG.log(Level.INFO, "You reached order by email method");
+        HashMap<String, Integer> hmap = new HashMap<>();
+        List<HashMap<String,Integer>> finalList = new ArrayList<>();
+        List<SalesOrder> orderIdIs = this.salesOrderService.getOrderIdByEmail(email);
+        System.out.println("------orderIdIs---------" + orderIdIs);
+
+        System.out.println("---Calling salesorder Service with orderId" );
+
+        for (SalesOrder salesOrder: orderIdIs) {
+            hmap = this.orderLineItemService.getOrdersById(salesOrder.getId());
+            finalList.add(hmap);
         }
+        return finalList;
 
-        @Override
-        @RequestMapping(value = "deleteSalesOrder", method = {RequestMethod.DELETE}, produces = "application/json")
-        public boolean delete(@RequestBody SalesOrder salesOrder) {
-
-            return this.salesOrderService.delete(salesOrder);
-        }
-
-        @Override
-        @GetMapping(value = "getAllSalesOrder", produces = "application/json")
-        public List<SalesOrder> getAll() {
-
-            List<SalesOrder> all = this.salesOrderService.getAll();
-            return all;
-        }
-
-        @GetMapping(value = "getSalesOrderByEmail_id")
-        public List<SalesOrder> getSalesOrderByEmail_id(@RequestBody Long email_id) {
-
-            return this.salesOrderService.getSalesOrderByEmail_id(email_id);
-        }
-
+    }
+}
     }

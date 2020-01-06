@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity(name = "Consumer")
+@Table(name="consumer")
 public class Consumer {
 
     @Id
@@ -139,11 +140,6 @@ public class Consumer {
             return this;
         }
 
-
-        public ConsumerBuilder withItem(Long itemId) {
-            consumer.addItem(itemId);
-            return this;
-        }
 
         public Consumer build() {
             return consumer;

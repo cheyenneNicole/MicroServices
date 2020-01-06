@@ -8,8 +8,6 @@ import java.util.List;
 
 public interface ItemRepository extends CrudRepository<Item, Long> {
 
-    List<Item> getItemsByConsumerId(Long customerId);
-
-    List<Item> getItemByName(String name);
+    Item findItemByName(String name);
 
 }

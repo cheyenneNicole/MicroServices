@@ -1,6 +1,5 @@
 package com.example.item.service;
 
-import com.example.item.model.Consumer;
 import org.springframework.cloud.netflix.ribbon.RibbonClient;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;

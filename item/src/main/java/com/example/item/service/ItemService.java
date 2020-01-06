@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ItemService implements BasicService<Item> {
+public class ItemService {
 
     private ItemRepository itemRepository;
 
@@ -18,50 +18,24 @@ public class ItemService implements BasicService<Item> {
         this.itemRepository = itemRepository;
     }
 
-    @Override
     public Item add(Item item) {
 
         return itemRepository.save(item);
     }
+    public Item get(String item) {
 
-    @Override
-    public Item get(Long id) {
-
-        Optional optional = itemRepository.findById(id);
+        Item optional = itemRepository.findItemByName(item);
 
         Item result = null;
-        if (optional.isPresent()) {
-            result = (Item) optional.get();
+        if (optional != null) {
+            result = (Item) optional;
         }
         return result;
     }
 
-    @Override
-    public Item modify(Item item) {
-
-        return itemRepository.save(item);
-    }
-
-    @Override
-    public boolean delete(Item item) {
-
-        itemRepository.delete(item);
-        return true;
-    }
-
-    @Override
     public List<Item> getAll() {
 
         return (List<Item>) itemRepository.findAll();
     }
 
-    public List<Item> getAllItemsForConsumer(Long consumerId) {
-
-        return this.itemRepository.getItemsByConsumerId(consumerId);
-    }
-
-    public List<Item> getItemByName(String name) {
-
-        return this.itemRepository.getItemByName(name);
-    }
 }

@@ -26,7 +26,10 @@
 	<module>zuul</module>
 	<module>rest-client</module>
 	<module>consumer</module>
+	<module>h2</module>
+	<module>zipkin</module>
 	<module>sales-order</module>
+
 	</modules>
 
 	<dependencies>

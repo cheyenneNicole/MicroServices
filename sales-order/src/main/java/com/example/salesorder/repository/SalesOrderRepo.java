@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface SalesOrderRepo extends CrudRepository<SalesOrder, Long> {
 
-    List<SalesOrder> findSalesOrderByEmail_id(Long email_id);
+    List<SalesOrder> findAllByEmail(String email);
 }
