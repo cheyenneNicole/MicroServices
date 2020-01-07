@@ -1,6 +1,6 @@
 
 spring.application.name: config-server
 spring.cloud.config.server.git.uri: https://github.com/cheyenneNicole/Micro-config
-spring.cloud.config.server.git.search-paths: server-config
+spring.cloud.config.server.git.search-paths: setup
 server.port: 8888
 

@@ -56,14 +56,6 @@ public class Item {
         this.price = price;
     }
 
-    public Long getConsumerId() {
-        return consumerId;
-    }
-
-    public void setConsumerId(Long consumerId) {
-        this.consumerId = consumerId;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

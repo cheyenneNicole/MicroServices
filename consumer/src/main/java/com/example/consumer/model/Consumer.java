@@ -17,8 +17,6 @@ public class Consumer {
     private String last_name;
     private String email;
 
-    @ElementCollection
-    private List<Long> itemIds = new ArrayList<>();
 
     protected Consumer() {
 
@@ -66,20 +64,6 @@ public class Consumer {
         this.email = email;
     }
 
-
-    // This is needed to update the relationship between Item and Consumer when adding a Item
-    public void addItem(Long itemId) {
-        itemIds.add(itemId);
-    }
-
-    // This is needed to update the relationship between Item and Consumer when removing a Item
-    public void removeItem(Long itemId) {
-        itemIds.remove(itemId);
-    }
-
-    public List<Long> getItemIds() {
-        return this.itemIds;
-    }
 
     @Override
     public boolean equals(Object o) {

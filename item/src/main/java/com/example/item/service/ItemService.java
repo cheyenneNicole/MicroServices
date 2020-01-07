@@ -6,7 +6,7 @@ import com.example.item.repository.ItemRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
+
 
 @Service
 public class ItemService {
@@ -18,9 +18,9 @@ public class ItemService {
         this.itemRepository = itemRepository;
     }
 
-    public Item add(Item item) {
+    public Item add(Item consumer) {
 
-        return itemRepository.save(item);
+        return itemRepository.save(consumer);
     }
     public Item get(String item) {
 

@@ -21,4 +21,3 @@ import javax.persistence.*;
         private Long orderId;
 
     }
-}

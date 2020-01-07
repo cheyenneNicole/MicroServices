@@ -1,3 +1,0 @@
----
-spring.application.name: consumer-com.example.salesorder.service
-spring.cloud.config.uri: http://localhost:8888

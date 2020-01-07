@@ -8,7 +8,7 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("item")
+@RequestMapping("itemController")
 public class ItemController{
     private ItemService itemService;
 

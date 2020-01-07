@@ -12,7 +12,7 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("consumer")
+@RequestMapping("consumerController")
 public class ConsumerController{
 
     private ConsumerService consumerService;
@@ -35,7 +35,7 @@ public class ConsumerController{
         return all;
     }
 
-    @GetMapping("getConsumerByEmail/{email}")
+    @GetMapping("/getEmail/{email}")
     public Consumer getByEmail(@PathVariable("email") String email){
         Consumer consumer = null;
         try {

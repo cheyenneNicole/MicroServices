@@ -8,9 +8,9 @@ import javax.validation.constraints.Email;
 import java.util.Date;
 import java.util.Objects;
 
+@Data
 @Entity(name="SalesOrder")
 @Table(name = "salesorder")
-@Data
 public class SalesOrder{
 
     @Id

@@ -17,7 +17,7 @@ public class OrderItemService {
         this.orderItemsRepo = orderItemsRepo;
     }
 
-    // id, item_name, quantity, order_id
+
     public OrderItem add(String itemName, Long orderId, int quantity) {
 
         OrderItem orderItem = new OrderItem();
@@ -25,12 +25,7 @@ public class OrderItemService {
         orderItem.setItemName(itemName);
         orderItem.setQuantity(quantity);
         orderItem.setOrderId(orderId);
-
-
         return this.orderItemsRepo.save(orderItem);
-
-
-
     }
 
     public HashMap<String, Integer> getOrdersById(Long id)

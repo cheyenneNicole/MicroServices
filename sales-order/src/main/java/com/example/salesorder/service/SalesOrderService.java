@@ -13,7 +13,7 @@ public class SalesOrderService{
 
     private SalesOrderRepo salesOrderRepo;
 
-    public SalesOrderService(SalesOrderRepo salesOrderRepository) {
+    public SalesOrderService(SalesOrderRepo salesOrderRepo) {
 
         this.salesOrderRepo = salesOrderRepo;
     }
@@ -30,7 +30,7 @@ public class SalesOrderService{
     }
 
 
-    public List<SalesOrder> getOrderByEmail(String email) {
+    public List<SalesOrder> getOrderIdByEmail(String email) {
         List<SalesOrder> salesOrder = null;
         salesOrder = this.salesOrderRepo.findAllByEmail(email);
         return salesOrder;

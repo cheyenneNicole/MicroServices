@@ -18,4 +18,4 @@ public class ConsumerInfo {
         private List<String> itemNames;
 
     }
-}
+
