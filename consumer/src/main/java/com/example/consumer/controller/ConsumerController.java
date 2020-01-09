@@ -42,7 +42,7 @@ public class ConsumerController{
             consumer = this.consumerService.getByEmail(email);
         }catch (Exception exc) {
             throw new ResponseStatusException(
-                    HttpStatus.NOT_FOUND, "Customer [" + email + "] Not Found", exc);
+                    HttpStatus.NOT_FOUND, "Consumer [" + email + "] Not Found", exc);
         }
         return consumer;
     }

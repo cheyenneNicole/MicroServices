@@ -27,13 +27,15 @@ public class ConsumerApplication implements ExitCodeGenerator {
 		System.out.println();
 		consumerController = (ConsumerController) context.getBean("consumerController");
 
-		// create customers
-//		Pet pet1 = Pet.builder().withName("Strangles").withBirthDate(new Date()).withPetType(PetType.SNAKE).withOwner(owner1).build();
 		Consumer customer1 = Consumer.builder().withFirstName("Homer").withLastName("Simpson").withEmail("homer@gmail.com").build();
 		Consumer customer2 = Consumer.builder().withFirstName("Lisa").withLastName("Millhouse").withEmail("lisa@gmail.com").build();
+		Consumer customer3 = Consumer.builder().withFirstName("Marge").withLastName("Simpson").withEmail("marge@gmail.com").build();
+		Consumer customer4 = Consumer.builder().withFirstName("Bart").withLastName("Simpson").withEmail("bart@gmail.com").build();
 
 		consumerController.add(customer1);
 		consumerController.add(customer2);
+		consumerController.add(customer3);
+		consumerController.add(customer4);
 
 		display(consumerController.getAll());
 		display(consumerController.getByEmail("lisa@gmail.com"));

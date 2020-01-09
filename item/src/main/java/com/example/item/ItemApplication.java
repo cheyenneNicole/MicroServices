@@ -28,12 +28,16 @@ public class ItemApplication implements ExitCodeGenerator {
 		System.out.println();
 		itemController = (ItemController) context.getBean("itemController");
 
-		// create customers
+
 		Item item1 = Item.builder().withName("Coffee").withDescription("Starbucks").withPrice(10.99).build();
 		Item item2 = Item.builder().withName("Chicken Salad").withDescription("HEB BRAND").withPrice(5.49).build();
+		Item item3 = Item.builder().withName("Cellphone").withDescription("iPhone").withPrice(1099.99).build();
+		Item item4 = Item.builder().withName("Turkey").withDescription("1 pound").withPrice(12.34).build();
 
 		itemController.add(item1);
 		itemController.add(item2);
+		itemController.add(item3);
+		itemController.add(item4);
 
 		display(itemController.getAll());
 	}
