@@ -19,12 +19,10 @@ public class ItemService {
     }
 
     private Item defaultItemService(String item) {
-        System.out.println("The item is not available or the item service is down...!!");
         Item itemModel = new Item();
 
         itemModel.setId(-1L);
         itemModel.setName(item);
-        //itemModel.setDescription();
 
         return itemModel;
     }

@@ -114,7 +114,7 @@ public class SalesOrderController{
             result = "Order Id is " + result + salesRes.getId();
 
             if(unavailableItems.length() > 1)
-                result =  result + " & some Items are unavailable and they are " + unavailableItems;
+                result =  result + "Unavailable Items: " + unavailableItems;
         }
         return result;
     }
@@ -124,10 +124,6 @@ public class SalesOrderController{
         HashMap<String, Integer> hmap = new HashMap<>();
         List<HashMap<String,Integer>> finalList = new ArrayList<>();
         List<SalesOrder> orderIdIs = this.salesOrderService.getOrderIdByEmail(email);
-        System.out.println("------orderIdIs---------" + orderIdIs);
-
-        System.out.println("---Calling salesorder Service with orderId" );
-
         for (SalesOrder salesOrder: orderIdIs) {
             hmap = this.orderItemService.getOrdersById(salesOrder.getId());
             finalList.add(hmap);
