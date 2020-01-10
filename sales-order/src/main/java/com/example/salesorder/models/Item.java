@@ -8,8 +8,7 @@ import java.util.Objects;
 
 @Data
 public class Item {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+
     private Long id;
 
     private String name;
@@ -19,14 +18,6 @@ public class Item {
     public Item() {
 
     }
-
-    public Item(String name, String description, Double price) {
-
-        this.name = name;
-        this.description = description;
-        this.price = price;
-    }
-
 
     @Override
     public boolean equals(Object o){

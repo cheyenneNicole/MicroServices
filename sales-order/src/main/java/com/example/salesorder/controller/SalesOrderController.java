@@ -3,13 +3,9 @@ package com.example.salesorder.controller;
 
 
 import com.example.salesorder.models.*;
-import com.example.salesorder.service.ConsumerService;
-import com.example.salesorder.service.ItemService;
-import com.example.salesorder.service.OrderItemService;
-import com.example.salesorder.service.SalesOrderService;
-import org.springframework.http.HttpStatus;
+import com.example.salesorder.service.*;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
+
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -41,11 +37,11 @@ public class SalesOrderController{
         String unavailableItems = "";
         Consumer isCustomerAvailable = null;
         boolean customerEmailAvailable = false;
-//        isCustomerAvailable = customerServiceProxy.getByEmail(orderDetails.getEmail());
+
         isCustomerAvailable = consumerService.getByEmail(orderDetails.getEmail());
 
         if(isCustomerAvailable.getId() == -1L)
-            return "**** Oops... Customer Server is down  ******";
+            return "Server is down";
 
         if (isCustomerAvailable != null)
             customerEmailAvailable = true;
@@ -58,18 +54,16 @@ public class SalesOrderController{
             List<String> orderList = orderDetails.getItemNames();
             List<String> availableList = new ArrayList<>();
 
-            System.out.println("orderList is " + orderList + " list empty check " + orderList.size());
-
             if (orderList.isEmpty() )
-                return "**** Oops... There are no items in the list or items are currently ******";
+                return "Empty order list";
 
             double totalPrice = 0.0;
             for (String order : orderList) {
 
-                System.out.println(" order passing to order service is " + order);
+                System.out.println(" order: " + order);
                 Item item = null;
                 item = itemService.get(order);
-                System.out.println("returned object from item service is " + item);
+                System.out.println("item: "+item);
 
                 if (item == null) {
                     unavailableItems = unavailableItems + " " + order;
@@ -78,7 +72,7 @@ public class SalesOrderController{
 
                 else if(item.getId() == -1L)
                 {
-                    return "**** Oops... Item Server is down  ******";
+                    return "Item server is down";
 
                 }
 

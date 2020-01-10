@@ -28,7 +28,6 @@ public class ItemController{
 
     @GetMapping(value = "getAllItems", produces = "application/json")
     public List<Item> getAll() {
-
         return this.itemService.getAll();
 
     }

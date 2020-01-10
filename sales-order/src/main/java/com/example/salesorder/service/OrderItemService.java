@@ -32,9 +32,9 @@ public class OrderItemService {
     {
         HashMap<String, Integer> hmap = new HashMap<>();
 
-        List<OrderItem> orderListFromTable = this.orderItemsRepo.getOrderItemsByOrderId(id);
+        List<OrderItem> orderFromTable = this.orderItemsRepo.getOrderItemsByOrderId(id);
 
-        for (OrderItem order: orderListFromTable) {
+        for (OrderItem order: orderFromTable) {
             hmap.put(order.getItemName(),order.getQuantity());
         }
 

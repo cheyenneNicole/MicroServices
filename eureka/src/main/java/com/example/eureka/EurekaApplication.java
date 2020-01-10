@@ -7,8 +7,8 @@ import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 
 //holds the information about all the client-server applications
 //will know all the client apps running on each port and IP address
-@EnableEurekaServer
 @SpringBootApplication
+@EnableEurekaServer
 @EnableZuulProxy
 public class EurekaApplication {
 
